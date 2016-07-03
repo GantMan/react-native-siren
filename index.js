@@ -22,8 +22,7 @@ const createAPI = (baseURL = 'https://itunes.apple.com/') => {
 const performCheck = () => {
   let updateIsAvailable = false
   const api = createAPI()
-  const bundleId = 'com.fandor.movies' // TODO: put this back DeviceInfo.getBundleId()
-  //
+  const bundleId = DeviceInfo.getBundleId()
 
   // Call API
   return api.getLatest(bundleId).then(response => {
@@ -39,18 +38,38 @@ const performCheck = () => {
   })
 }
 
-const promptUser = () => {
-  performCheck().then(sirenResult => {
-    console.log('sirenResult', sirenResult)
-    if (sirenResult.updateIsAvailable) {
-      const itunesURL = `https://itunes.apple.com/app/id${sirenResult.trackId}`
+const attemptUpgrade = (appId) => {
+  // failover if itunes - a bit excessive
+  const itunesURI = `itmss://itunes.apple.com/app/id${appId}?mt=8`
+  const itunesURL = `https://itunes.apple.com/app/id${appId}?mt=8`
+
+  Linking.canOpenURL(itunesURI).then(supported => {
+    if (supported) {
+      Linking.openURL(itunesURI)
+    } else {
       Linking.openURL(itunesURL)
     }
   })
 }
 
+const showUpgradePrompt = (appId) => {
+  Alert.alert(
+    'Update Available',
+    'There is an updated version available on the App Store.  Would you like to upgrade?',
+    [
+      {text: 'Upgrade', onPress: () => attemptUpgrade(appId)},
+      {text: 'Cancel'}
+    ]
+  )
+}
+
+const promptUser = () => {
+  performCheck().then(sirenResult => {
+    if (sirenResult.updateIsAvailable) showUpgradePrompt(sirenResult.trackId)
+  })
+}
+
 export default {
-  performCheck,
   promptUser
 }
 
