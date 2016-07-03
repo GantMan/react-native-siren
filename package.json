@@ -29,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/GantMan/react-native-siren/issues"
   },
-  "homepage": "https://github.com/GantMan/react-native-siren#readme"
+  "homepage": "https://github.com/GantMan/react-native-siren#readme",
+  "dependencies": {
+    "react-native-device-info": "^0.9.3"
+  }
 }
