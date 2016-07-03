@@ -9,7 +9,7 @@ react-native link
 ```
 
 ## Usage
-```
+```javascript
 import Siren from 'react-native-siren'
 
 ...
