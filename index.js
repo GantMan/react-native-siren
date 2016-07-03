@@ -3,7 +3,8 @@ import { Alert, Linking } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 
 export default class Siren {
-  constructor (appID) {
+
+  performCheck(appID) {
     const bundleId = DeviceInfo.getBundleId()
     const endpoint = `https://itunes.apple.com/lookup?bundleId=${bundleId}`
     const itunes = `https://itunes.apple.com/app/id${appID}`
