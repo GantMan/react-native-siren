@@ -15,17 +15,16 @@
     "Native",
     "Siren",
     "Harpy",
-    "React",
-    "Native",
-    "Siren",
+    "React Native Siren",
     "Verion",
     "Check",
-    "App",
-    "Store",
-    "Check"
+    "App Store"
   ],
   "author": "Gant Laborde",
   "license": "MIT",
+  "files": [
+    "index.js"
+  ],
   "bugs": {
     "url": "https://github.com/GantMan/react-native-siren/issues"
   },

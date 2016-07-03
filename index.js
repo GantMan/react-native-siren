@@ -1,27 +1,56 @@
 import React from 'react'
 import { Alert, Linking } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import apisauce from 'apisauce'
 
-export default class Siren {
+const createAPI = (baseURL = 'https://itunes.apple.com/') => {
+  const api = apisauce.create({
+    baseURL,
+    headers: {
+      'Cache-Control': 'no-cache',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    timeout: 10000
+  })
 
-  performCheck(appID) {
-    const bundleId = DeviceInfo.getBundleId()
-    const endpoint = `https://itunes.apple.com/lookup?bundleId=${bundleId}`
-    const itunes = `https://itunes.apple.com/app/id${appID}`
-
-    // Call API
-
-    // Assure 1 result  `0 < results.length < 2`
-
-    // Access `response.data.results[0].version`
-
-    // check against DeviceInfo.getVersion()
-
-    // prompt user if different
-
-    // User chooses upgrade
-    Linking.openURL(itunes)
-
+  return {
+    getLatest: (bundleId) => api.get('lookup', {bundleId})
   }
-
 }
+
+const performCheck = () => {
+  let updateIsAvailable = false
+  const api = createAPI()
+  const bundleId = 'com.fandor.movies' // TODO: put this back DeviceInfo.getBundleId()
+  //
+
+  // Call API
+  return api.getLatest(bundleId).then(response => {
+    let latestInfo = null
+    // Did we get our exact result?
+    if (response.ok && response.data.resultCount === 1) {
+      latestInfo = response.data.results[0]
+      // check for version difference
+      updateIsAvailable = latestInfo.version !== DeviceInfo.getVersion()
+    }
+
+    return {updateIsAvailable, ...latestInfo}
+  })
+}
+
+const promptUser = () => {
+  performCheck().then(sirenResult => {
+    console.log('sirenResult', sirenResult)
+    if (sirenResult.updateIsAvailable) {
+      const itunesURL = `https://itunes.apple.com/app/id${sirenResult.trackId}`
+      Linking.openURL(itunesURL)
+    }
+  })
+}
+
+export default {
+  performCheck,
+  promptUser
+}
+
