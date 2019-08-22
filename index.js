@@ -52,20 +52,31 @@ const attemptUpgrade = (appId) => {
   })
 }
 
-const showUpgradePrompt = (appId) => {
+const showUpgradePrompt = (appId, {
+  title = 'Update Available', 
+  message = 'There is an updated version available on the App Store.  Would you like to upgrade?',
+  buttonUpgradeText = 'Upgrade',
+  buttonCancelText = 'Cancel',
+  forceUpgrade = false
+}) => {
+  const buttons = [{
+    text: buttonUpgradeText, onPress: () => attemptUpgrade(appId)
+  }]
+
+  if (forceUpgrade === false) {
+    buttons.push({text: buttonCancelText})
+  }
+
   Alert.alert(
-    'Update Available',
-    'There is an updated version available on the App Store.  Would you like to upgrade?',
-    [
-      {text: 'Upgrade', onPress: () => attemptUpgrade(appId)},
-      {text: 'Cancel'}
-    ]
+    title,
+    message,
+    buttons
   )
 }
 
-const promptUser = () => {
+const promptUser = (options) => {
   performCheck().then(sirenResult => {
-    if (sirenResult.updateIsAvailable) showUpgradePrompt(sirenResult.trackId)
+    if (sirenResult.updateIsAvailable) showUpgradePrompt(sirenResult.trackId, options)
   })
 }
 
