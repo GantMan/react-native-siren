@@ -14,8 +14,19 @@ import Siren from 'react-native-siren'
 
 ...
 
-Siren.promptUser()
+Siren.promptUser({forceUpgrade: true})
 ```
+
+## Options 
+
+| value             | Description           | default |
+| ------------- |-------------| -----|
+|title              | Alert Title| Update Available |
+|message            | Alert Message | There is an updated version available on the App Store.  Would you like to upgrade? |
+|buttonUpgradeText  | Upgrade Button Text | Upgrade |
+|buttonCancelText   | Cancel Button Text | Cancel |
+|forceUpgrade       | Hide Cancel Button, forcing user to update | false |
+
 #### TADAAAA!
 ![update](http://i.imgur.com/PKreDAS.png)
 
