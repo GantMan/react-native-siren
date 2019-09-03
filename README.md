@@ -12,20 +12,49 @@ react-native link
 ```javascript
 import Siren from 'react-native-siren'
 
-...
+const defaultOptions = {
+  title: 'AwesomeApp has a new update!'
+}
 
-Siren.promptUser({forceUpgrade: true})
+const versionSpecificRules = [{
+  localVersion: '3.0.2',
+  forceUpgrade: true,
+  title: 'Update your app now',
+  message: 'This version contains a bug that might corrupt your data. You must update to be able to use our app.'
+}]
+
+Siren.promptUser(defaultOptions, versionSpecificRules)
+
+// or
+
+Siren.performCheck().then(({ updateIsAvailable }) => {
+  if (updateIsAvailable) {
+    showCustomUpdateModal()
+  }
+})
+
 ```
 
 ## Options 
 
-| value             | Description           | default |
-| ------------- |-------------| -----|
-|title              | Alert Title| Update Available |
-|message            | Alert Message | There is an updated version available on the App Store.  Would you like to upgrade? |
-|buttonUpgradeText  | Upgrade Button Text | Upgrade |
-|buttonCancelText   | Cancel Button Text | Cancel |
-|forceUpgrade       | Hide Cancel Button, forcing user to update | false |
+| value             | Description             | default |
+| -------------     |-------------            | -----|
+|title              | Alert title             | Update Available |
+|message            | Alert Message           | There is an updated version available on the App Store. Would you like to upgrade? |
+|buttonUpgradeText  | Upgrade Button Text     | Upgrade |
+|buttonCancelText   | Cancel Button Text      | Cancel |
+|forceUpgrade       | Hide Cancel Button      | false |
+
+## Version-specific rules
+
+There might be situations where you'd like to specify rules dynamically based on what version the device is currently running.
+If so, pass an array as second argument.
+
+| value             | Description |
+| -------------     |-------------|
+| localVersion      | version currently running on the device |
+| title, message..  | same options as specified in the [Options](#options) section | 
+
 
 #### TADAAAA!
 ![update](http://i.imgur.com/PKreDAS.png)

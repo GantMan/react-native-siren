@@ -31,6 +31,7 @@ const performCheck = () => {
     if (response.ok && response.data.resultCount === 1) {
       latestInfo = response.data.results[0]
       // check for version difference
+
       updateIsAvailable = latestInfo.version !== DeviceInfo.getVersion()
     }
 
@@ -54,7 +55,7 @@ const attemptUpgrade = (appId) => {
 
 const showUpgradePrompt = (appId, {
   title = 'Update Available', 
-  message = 'There is an updated version available on the App Store.  Would you like to upgrade?',
+  message = 'There is an updated version available on the App Store. Would you like to upgrade?',
   buttonUpgradeText = 'Upgrade',
   buttonCancelText = 'Cancel',
   forceUpgrade = false
@@ -70,17 +71,24 @@ const showUpgradePrompt = (appId, {
   Alert.alert(
     title,
     message,
-    buttons
+    buttons,
+    { cancelable: !!forceUpgrade }
   )
 }
 
-const promptUser = (options) => {
+const promptUser = (defaultOptions = {}, versionSpecificOptions = []) => {
   performCheck().then(sirenResult => {
-    if (sirenResult.updateIsAvailable) showUpgradePrompt(sirenResult.trackId, options)
+    if (sirenResult.updateIsAvailable) {
+      const options = 
+        versionSpecificOptions.find(o => o.localVersion === DeviceInfo.getVersion())
+        || defaultOptions
+
+      showUpgradePrompt(sirenResult.trackId, options)
+    }
   })
 }
 
 export default {
-  promptUser
+  promptUser,
+  performCheck
 }
-
