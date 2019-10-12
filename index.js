@@ -41,14 +41,14 @@ const performCheck = () => {
 
 const attemptUpgrade = (appId) => {
   // failover if itunes - a bit excessive
-  const itunesURI = `itmss://itunes.apple.com/app/id${appId}?mt=8`
-  const itunesURL = `https://itunes.apple.com/app/id${appId}?mt=8`
+  const appStoreURI = `itms-apps://apps.apple.com/app/id${appId}?mt=8`
+  const appStoreURL = `https://apps.apple.com/app/id${appId}?mt=8`
 
-  Linking.canOpenURL(itunesURI).then(supported => {
+  Linking.canOpenURL(appStoreURI).then(supported => {
     if (supported) {
-      Linking.openURL(itunesURI)
+      Linking.openURL(appStoreURI)
     } else {
-      Linking.openURL(itunesURL)
+      Linking.openURL(appStoreURL)
     }
   })
 }
