@@ -19,10 +19,9 @@ const createAPI = (baseURL = 'https://itunes.apple.com/') => {
   }
 }
 
-const performCheck = () => {
+const performCheck = (bundleId = DeviceInfo.getBundleId()) => {
   let updateIsAvailable = false
   const api = createAPI()
-  const bundleId = DeviceInfo.getBundleId()
 
   // Call API
   return api.getLatest(bundleId).then(response => {
@@ -54,7 +53,7 @@ const attemptUpgrade = (appId) => {
 }
 
 const showUpgradePrompt = (appId, {
-  title = 'Update Available', 
+  title = 'Update Available',
   message = 'There is an updated version available on the App Store. Would you like to upgrade?',
   buttonUpgradeText = 'Upgrade',
   buttonCancelText = 'Cancel',
@@ -69,19 +68,19 @@ const showUpgradePrompt = (appId, {
   }
 
   Alert.alert(
-    title,
-    message,
-    buttons,
-    { cancelable: !!forceUpgrade }
+      title,
+      message,
+      buttons,
+      { cancelable: !!forceUpgrade }
   )
 }
 
-const promptUser = (defaultOptions = {}, versionSpecificOptions = []) => {
-  performCheck().then(sirenResult => {
+const promptUser = (defaultOptions = {}, versionSpecificOptions = [], bundleId) => {
+  performCheck(bundleId).then(sirenResult => {
     if (sirenResult.updateIsAvailable) {
-      const options = 
-        versionSpecificOptions.find(o => o.localVersion === DeviceInfo.getVersion())
-        || defaultOptions
+      const options =
+          versionSpecificOptions.find(o => o.localVersion === DeviceInfo.getVersion())
+          || defaultOptions
 
       showUpgradePrompt(sirenResult.trackId, options)
     }
