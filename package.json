@@ -1,6 +1,6 @@
 {
   "name": "react-native-siren",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "React Native module for checking App version and prompting user.",
   "main": "index.js",
   "scripts": {
