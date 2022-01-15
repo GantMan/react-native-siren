@@ -15,16 +15,17 @@ const createAPI = (baseURL = 'https://itunes.apple.com/') => {
   })
 
   return {
-    getLatest: (bundleId) => api.get('lookup', {bundleId})
+    getLatest: (bundleId, country = undefined) => api.get('lookup', { bundleId, country })
   }
 }
 
-const performCheck = (bundleId = DeviceInfo.getBundleId()) => {
+const defaultCheckOptions = { bundleId: DeviceInfo.getBundleId(), country: undefined }
+const performCheck = ({ bundleId = defaultCheckOptions.bundleId, country } = defaultCheckOptions) => {
   let updateIsAvailable = false
   const api = createAPI()
 
   // Call API
-  return api.getLatest(bundleId).then(response => {
+  return api.getLatest(bundleId, country).then(response => {
     let latestInfo = null
     // Did we get our exact result?
     if (response.ok && response.data.resultCount === 1) {
@@ -75,8 +76,8 @@ const showUpgradePrompt = (appId, {
   )
 }
 
-const promptUser = (defaultOptions = {}, versionSpecificOptions = [], bundleId) => {
-  performCheck(bundleId).then(sirenResult => {
+const promptUser = (defaultOptions = {}, versionSpecificOptions = [], bundleId, country = undefined) => {
+  performCheck({ bundleId, country }).then(sirenResult => {
     if (sirenResult.updateIsAvailable) {
       const options =
           versionSpecificOptions.find(o => o.localVersion === DeviceInfo.getVersion())

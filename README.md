@@ -55,6 +55,15 @@ If so, pass an array as second argument.
 | localVersion      | version currently running on the device |
 | title, message..  | same options as specified in the [Options](#options) section | 
 
+## performCheck options
+Optional, in some cases it may be necessary to perform a specific check.
+The app may only be available in some countries, so you need to make explicit the contry code. 
+
+| value    | Description                                                                                                   | default                                     |
+|----------|---------------------------------------------------------------------------------------------------------------|---------------------------------------------|
+| bundleId | id that identifies the app (ex: com.apple.mobilesafari)                                                       | DeviceInfo.getBundleId()                    |
+| country  | [ISO 3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) | undefined (the API won't filter by country) |
+
 
 #### TADAAAA!
 ![update](http://i.imgur.com/PKreDAS.png)

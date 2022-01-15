@@ -56,6 +56,11 @@ type VersionSpecificOptions = {
   localVersion: string;
 } & PromptUserOptions;
 
+type PerformCheckOption = {
+  bundleId: string;
+  country?: string;
+}
+
 type PerformCheck = {
   updateIsAvailable: boolean;
   latestInfo: ITunesResponse;
@@ -63,7 +68,7 @@ type PerformCheck = {
 
 declare const siren: {
   promptUser: (defaultOptions: PromptUserOptions = {}, versionSpecificOptions: VersionSpecificOptions[] = []) => void;
-  performCheck: () => Promise<PerformCheck>;
+  performCheck: (performCheckOptions?: PerformCheckOption) => Promise<PerformCheck>;
 }
 
 export default siren;
