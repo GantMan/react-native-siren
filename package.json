@@ -1,6 +1,6 @@
 {
   "name": "react-native-siren",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "React Native module for checking App version and prompting user.",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,6 @@
   "homepage": "https://github.com/GantMan/react-native-siren#readme",
   "dependencies": {
     "apisauce": "^2.1.1",
-    "react-native-device-info": "^8.7.0"
+    "react-native-device-info": "^10.4.0"
   }
 }
