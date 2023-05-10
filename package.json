@@ -31,6 +31,6 @@
   "homepage": "https://github.com/GantMan/react-native-siren#readme",
   "dependencies": {
     "apisauce": "^2.1.1",
-    "react-native-device-info": "^8.7.0"
+    "react-native-device-info": "https://github.com/zeptonow/react-native-device-info"
   }
 }
