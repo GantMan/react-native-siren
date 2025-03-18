@@ -58,7 +58,8 @@ const showUpgradePrompt = (appId, {
   message = 'There is an updated version available on the App Store. Would you like to upgrade?',
   buttonUpgradeText = 'Upgrade',
   buttonCancelText = 'Cancel',
-  forceUpgrade = false
+  forceUpgrade = false,
+  reverseButtons = false
 }) => {
   const buttons = [{
     text: buttonUpgradeText, onPress: () => attemptUpgrade(appId)
@@ -66,6 +67,10 @@ const showUpgradePrompt = (appId, {
 
   if (forceUpgrade === false) {
     buttons.push({text: buttonCancelText})
+  }
+
+  if (reverseButtons) {
+    buttons.reverse()
   }
 
   Alert.alert(

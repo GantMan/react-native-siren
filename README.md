@@ -44,6 +44,8 @@ Siren.performCheck().then(({ updateIsAvailable }) => {
 |buttonUpgradeText  | Upgrade Button Text     | Upgrade |
 |buttonCancelText   | Cancel Button Text      | Cancel |
 |forceUpgrade       | Hide Cancel Button      | false |
+|reverseButtons     | Reverse Buttons         | false |
+
 
 ## Version-specific rules
 
